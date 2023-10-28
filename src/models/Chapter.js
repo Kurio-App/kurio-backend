@@ -19,4 +19,8 @@ const ChapterSchema = new mongoose.Schema({
     }
 })
 
-module.exports = ChapterSchema
+
+const Chapter = mongoose.model("Chapter", ChapterSchema);
+
+
+export default Chapter

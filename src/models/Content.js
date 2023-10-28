@@ -2,13 +2,14 @@ import mongoose from "mongoose";
 import ChapterSchema from "./Chapter.js"
 
 const ContentSchema = new mongoose.Schema({
+
     title: {
         type: String,
         required: true,
     },
     chapters: {
-        type: Map,
-        of: ChapterSchema,
+        type : [mongoose.Schema.Types.ObjectId],
+        ref: "Chapter",
     }
 })
 

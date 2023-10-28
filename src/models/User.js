@@ -15,15 +15,43 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    verificatioCode : {
+    verificationCode : {
         type: String,
-        default : null,
+        
     
     },
     isVerified : {
         type: Boolean,
         default : false,
     },
+
+    quiz : { 
+        type : [mongoose.Schema.Types.ObjectId],
+        ref : "Quiz"
+    },
+
+
+
+
+    favorite : {
+        type : [mongoose.Schema.Types.ObjectId] ,
+        ref : "Outline" 
+    },
+
+    outlines :{
+        type : [mongoose.Schema.Types.ObjectId],
+        ref : "Outline"
+    }
+
+
+
+
+
+
+
+
+    
+    
 
 
     

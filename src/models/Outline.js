@@ -14,6 +14,13 @@ const OutlineSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        enum: ["textbook", "story"],
+        required: true,
+
+
+    },
     chapters_number: {
         type: Number,
         required: true,
