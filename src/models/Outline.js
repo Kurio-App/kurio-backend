@@ -24,7 +24,15 @@ const OutlineSchema = new mongoose.Schema({
     chapters_number: {
         type: Number,
         required: true,
+    },
+    chapters : {
+        type: [mongoose.Schema.Types.ObjectId,],
+        ref: "Chapter"
+
     }
+        
+        
+    
 })
 
 const Outline = mongoose.model("Outline", OutlineSchema);
