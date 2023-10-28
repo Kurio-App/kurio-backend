@@ -5,7 +5,9 @@ import AuthRoutes from './src/routes/AuthRoutes.js';
 import ContentRoutes from './src/routes/ContentRoutes.js';
 import OutlineRoutes from './src/routes/OutlinesRoutes.js';
 
+
 import User from './src/models/User.js';
+import Outline from './src/models/Outline.js';
 
 const app = express();
 

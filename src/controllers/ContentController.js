@@ -72,8 +72,9 @@ export async function CreateTextBook(req,res){
         }
 
         const response = await axios.post(uri+"/textbook",data);
+        console.log(response.data);
 
-        const outlineData =await CreateOutline(response.data.id,response.data.title,response.data.image,response.data.chapters_number , "story");
+        const outlineData =await CreateOutline(response.data.id,response.data.title,response.data.image,response.data.chapters_number , "textbook");
         if (!outlineData.success){
             return ErrorRes(res,"Cannot Create TextBook",400,outlineData.error);
         }
@@ -94,7 +95,7 @@ export async function CreateChapter(req,res){
     try {
         let {id , index} = req.params;
 
-        let outline = await Outline.findById(id);
+        let outline = await Outline.findOne({id : id})
     
         if (!outline){
             return ErrorRes(res,"Cannot Create Chapter",400,"Outline Not Found");
@@ -103,15 +104,26 @@ export async function CreateChapter(req,res){
         if (index > outline.chapters_number){
             return ErrorRes(res,"Cannot Create Chapter",400,"Index Out Of Bound");
         }
+
+
+        let body = {
+            load_local: true,
+            save_local: false
+        }
+
+
+        let url = uri+"/"+outline.type+"/"+id+"/"+index;
+        console.log(url);
     
     
-        let response = await axios.post(uri+"/"+outline.type/id+"/"+index);
+        let response = await axios.post(url , body);
+        console.log(response);
         if (!Chapter){
             return ErrorRes(res,"Cannot Create Chapter",400,Chapter.error);
         }
     
     
-        const chapter = Chapter.create({
+        let chapter = await Chapter.create({
             title: response.data.title,
             content: response.data.content,
             image: response.data.image,

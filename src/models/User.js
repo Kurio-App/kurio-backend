@@ -30,9 +30,6 @@ const UserSchema = new mongoose.Schema({
         ref : "Quiz"
     },
 
-
-
-
     favorite : {
         type : [mongoose.Schema.Types.ObjectId] ,
         ref : "Outline" 

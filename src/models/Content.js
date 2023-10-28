@@ -10,7 +10,9 @@ const ContentSchema = new mongoose.Schema({
     chapters: {
         type : [mongoose.Schema.Types.ObjectId],
         ref: "Chapter",
+        default: [],
     }
+    
 })
 
 const Texbook = mongoose.model("Textbook", ContentSchema);
