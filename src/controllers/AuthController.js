@@ -5,6 +5,8 @@ import {
   verifyUser,
 } from "../services/AuthServices.js";
 import { generateToken } from "../utils/jwt.js";
+import User from "../models/User.js";
+import { log } from "console";
 
 /**
  * @access public 
@@ -74,6 +76,10 @@ export async function registerController(req, res) {
       });
     }
 
+    console.log(age);
+    console.log(name);
+    console.log(email);
+    
 
     var result = await registerUser(email, password, name , age);
     if (!result.success) {
@@ -141,6 +147,34 @@ export async function verifyController(req, res) {
       },
     });
   } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error:  error.message,
+    });
+  }
+}
+
+
+
+export async function CheckAuthController(req,res){
+  try{
+    const user = await User.findById(req.user._id).populate({
+      path: "outlines",
+      populate: {
+          path: "chapters",
+          model: "Chapter"
+      }
+  });
+
+    return res.status(200).json({
+      success: true,
+      message: "User Authenticated",
+      data: {
+        ...user._doc,
+      },
+    });
+  }catch(error){
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
