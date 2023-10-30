@@ -44,7 +44,7 @@ export async function CreateStory(req,res){
         let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
 
         if (outline){
-            req.user.outlines.push(outlineData.data._id);
+            req.user.outlines.push(outline._id);
             await req.user.save();    
             return SuccessRes(res,"Story Created",outline);
         }
@@ -104,7 +104,7 @@ export async function CreateTextBook(req,res){
         let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
         
         if (outline){
-            req.user.outlines.push(outlineData.data._id);
+            req.user.outlines.push(outline._id);
             await req.user.save();    
             return SuccessRes(res,"TextBook Created",outline);
         }
