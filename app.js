@@ -38,5 +38,7 @@ app.listen(PORT, () =>
 
 
 
+await User.findOneAndDelete({ email: "badlamousssab@gmail.con" })
+console.log("User deleted");
 
 

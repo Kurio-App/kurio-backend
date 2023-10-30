@@ -63,7 +63,7 @@ export async function loginUser(email, password) {
  * @throws {error}
  */
 
-export async function registerUser(email, password, name) {
+export async function registerUser(email, password, name , age) {
   try {
     const user = await getUserByEmail(email);
 
@@ -82,6 +82,7 @@ export async function registerUser(email, password, name) {
     email : email,
     name: name,
     password: hashPassword,
+    age : age,
     verificationCode: code,
     });
     await newUser.save();

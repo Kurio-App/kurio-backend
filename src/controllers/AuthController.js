@@ -66,15 +66,15 @@ export async function loginController(req, res) {
 
 export async function registerController(req, res) {
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    const { name, email, password  , age } = req.body;
+    if (!name || !email || !password || !age) {
       return res.status(422).json({
         success: false,
         message: "Name , Email or Password is empty",
       });
     }
 
-    var result = await registerUser(email, password, name );
+    var result = await registerUser(email, password, name , age);
     if (!result.success) {
       return res.status(400).json({
         success: false,
