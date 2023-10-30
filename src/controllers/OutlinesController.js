@@ -20,7 +20,6 @@ export async function GetAllOutlines(req,res){
         });
         return SuccessRes(res,"Outlines",outlines.outlines);
     }catch(err){
-        console.log(err.message)
         return ErrorRes(res,"Cannot Get Outlines",500,err.message);
     }
 }
