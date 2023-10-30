@@ -74,6 +74,7 @@ export async function registerController(req, res) {
       });
     }
 
+
     var result = await registerUser(email, password, name , age);
     if (!result.success) {
       return res.status(400).json({
@@ -81,12 +82,6 @@ export async function registerController(req, res) {
         message: result.message,
       });
     }
-
-    const user = result.data;
-
-    /**
-     * @todo {Send Email Verification}
-     */
 
     return res.status(200).json({
       success: true,
@@ -135,6 +130,7 @@ export async function verifyController(req, res) {
 
     const user = result.data;
     const token = generateToken(user._id);
+
     delete user.password;
     return res.status(200).json({
       success: true,

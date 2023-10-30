@@ -67,6 +67,9 @@ export async function registerUser(email, password, name , age) {
   try {
     const user = await getUserByEmail(email);
 
+
+
+
     if (user) {
       return {
         success: false,
@@ -77,6 +80,7 @@ export async function registerUser(email, password, name , age) {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
     const code = generateCode(4);
+
 
     const newUser = new User({
     email : email,
@@ -150,6 +154,7 @@ export async function verifyUser(email, code) {
         }
 
         user.isVerified = true;
+        user.verificationCode = null;
         await user.save();
         return {
             success: true,

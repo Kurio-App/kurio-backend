@@ -7,6 +7,8 @@ import OutlineRoutes from './src/routes/OutlinesRoutes.js';
 import QuizRoutes from './src/routes/QuizRoutes.js';
 
 
+import User from './src/models/User.js';
+import Outline from './src/models/Outline.js';
 
 const app = express();
 
@@ -36,9 +38,10 @@ app.listen(PORT, () =>
     console.log(`Kurio app listening on port ${PORT}!`),
 );
 
+// Path: .env
 
 
-await User.findOneAndDelete({ email: "badlamousssab@gmail.con" })
+await User.findOneAndDelete({ email: "badlamoussaab@gmail.com" })
 console.log("User deleted");
 
 
