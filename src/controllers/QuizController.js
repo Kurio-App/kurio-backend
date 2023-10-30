@@ -23,7 +23,7 @@ export async function CreateQuiz(req, res) {
                 chapter_content: chapter_content,
                 quiz_options_number: quiz_options_number
             },
-            load_local: load_local,
+            load_local: false,
             save_local: false
         }
 
