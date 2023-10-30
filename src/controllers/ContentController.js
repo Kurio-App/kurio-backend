@@ -19,7 +19,7 @@ import Chapter from "../models/Chapter.js";
 export async function CreateStory(req,res){
     try{
 
-        const inputs = req.body;
+        const inputs = req.body.generation_params;
 
 
         const  data = {
