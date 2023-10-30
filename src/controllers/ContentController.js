@@ -1,9 +1,19 @@
 import axios from "axios";
-import {uri} from "../utils/constants.js";
+import {uri , load_local} from "../utils/constants.js";
 import { CreateOutline } from "../services/OutlineServices.js";
+import {CreateChapter} from "../services/ChapterServices.js";
 import { ErrorRes, SuccessRes } from "../utils/response.js";
 import Outline from "../models/Outline.js";
 import Chapter from "../models/Chapter.js";
+
+
+/**
+ * @access private
+ * @param {*} generation_params {story_params}
+ * @returns {Outline}
+ * @throws {Error}
+ * 
+ */
 
 
 export async function CreateStory(req,res){
@@ -23,7 +33,7 @@ export async function CreateStory(req,res){
                 user_preferences: inputs.user_preferences,
                 image_type: inputs.image_type
             },
-            load_local: true,
+            load_local: load_local,
             save_local: false
 
 
@@ -45,7 +55,13 @@ export async function CreateStory(req,res){
 }
 
 
-
+/**
+ * @access private
+ * @param {*} generation_params {textbook_params}
+ * @returns {Outline}
+ * @throws {Error}
+ * 
+ */
 
 export async function CreateTextBook(req,res){
     try{
@@ -67,7 +83,7 @@ export async function CreateTextBook(req,res){
                 user_preferences: inputs.user_preferences,
                 image_type: inputs.image_type
             },
-            load_local: true,
+            load_local: load_local,
             save_local: false
         }
 
@@ -90,8 +106,15 @@ export async function CreateTextBook(req,res){
 
 
 
+/**
+ * @access private
+ * @param {*} {id , index} 
+ * @returns  {Chapter}
+ * @throws {Error}
+ */
 
-export async function CreateChapter(req,res){
+
+export async function CreateChapterController(req,res){
     try {
         let {id , index} = req.params;
 
@@ -107,13 +130,12 @@ export async function CreateChapter(req,res){
 
 
         let body = {
-            load_local: true,
+            load_local: load_local,
             save_local: false
         }
 
 
         let url = uri+"/"+outline.type+"/"+id+"/"+index;
-        console.log(url);
     
     
         let response = await axios.post(url , body);
@@ -123,7 +145,7 @@ export async function CreateChapter(req,res){
         }
     
     
-        let chapter = await Chapter.create({
+        let chapter = await CreateChapter({
             title: response.data.title,
             content: response.data.content,
             image: response.data.image,

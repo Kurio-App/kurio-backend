@@ -1,7 +1,16 @@
 import Outline from "../models/Outline.js";
 import User from "../models/User.js";
 
-
+/**
+ * @description {Create Outline}
+ * @access private
+ * @param {*} id 
+ * @param {*} title 
+ * @param {*} image 
+ * @param {*} chapters_number 
+ * @param {*} type 
+ * @returns {Outline}
+ */
 
 export async function CreateOutline(id,title ,image , chapters_number ,type ) {
     try{

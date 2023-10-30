@@ -25,7 +25,7 @@ export async function loginController(req, res) {
         message: "Email or Password is empty",
       });
     }
-    var result = await loginUser(email, password);
+    const  result = await loginUser(email, password);
     if (!result.success) {
       return res.status(400).json({
         success: false,

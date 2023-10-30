@@ -1,6 +1,13 @@
 
 import User from "../models/User.js";
 import { ErrorRes, SuccessRes } from "../utils/response.js";
+/**
+ * @description {Create Outline}
+ * @access private
+ * @returns  {Outlines}
+ * @throws {Error}
+ */
+
 
 export async function GetAllOutlines(req,res){
     try{

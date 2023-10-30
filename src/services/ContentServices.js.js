@@ -1,6 +1,13 @@
 import Content from "../models/Content.js"
 
-
+/**
+ * 
+ * @param {*} title 
+ * @param {*} {chapters} 
+ * 
+ * @returns {Chapter}
+ * 
+ */
 
 export async function CreateChapter(title , [Chapter]) {
     try{
@@ -13,6 +20,13 @@ export async function CreateChapter(title , [Chapter]) {
     }
 }
 
+
+/**
+ * @description {Content By ID}
+ * @param {*} id 
+ * @returns {Chapter}
+ * 
+ */
 
 export async function GetContentById(id){
     try {

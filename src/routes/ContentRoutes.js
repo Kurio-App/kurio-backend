@@ -1,7 +1,7 @@
 import {
     CreateStory,
     CreateTextBook,
-    CreateChapter
+    CreateChapterController
 } from "../controllers/ContentController.js";
 
 
@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post("/story",protect, CreateStory);
 router.post("/textbook",protect, CreateTextBook);
-router.post("/chapter/:id/:index",protect, CreateChapter);
+router.post("/chapter/:id/:index",protect, CreateChapterController);
 
 
 

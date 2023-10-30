@@ -20,6 +20,11 @@ const UserSchema = new mongoose.Schema({
         
     
     },
+
+    age :  {
+        type: Number,
+    
+    },
     isVerified : {
         type: Boolean,
         default : false,
