@@ -41,7 +41,15 @@ export async function CreateStory(req,res){
 
         const response = await axios.post(uri+"/story",data);
 
+        let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
+
+        if (outline){
+            return SuccessRes(res,"Story Created",outline);
+        }
+
+
         const outlineData =await CreateOutline(response.data.id,response.data.title,response.data.image,response.data.chapters_number , "story");
+        
         if (!outlineData.success){
             return ErrorRes(res,"Cannot Create Story",400,outlineData.error);
         }
@@ -88,7 +96,15 @@ export async function CreateTextBook(req,res){
         }
 
         const response = await axios.post(uri+"/textbook",data);
-        console.log(response.data);
+        if (!response){
+            return ErrorRes(res,"Cannot Create TextBook",400,"TextBook Not Found");
+        }
+        let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
+        
+        if (outline){
+            return SuccessRes(res,"TextBook Created",outline);
+        }
+
 
         const outlineData =await CreateOutline(response.data.id,response.data.title,response.data.image,response.data.chapters_number , "textbook");
         if (!outlineData.success){

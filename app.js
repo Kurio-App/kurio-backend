@@ -41,7 +41,7 @@ app.listen(PORT, () =>
 // Path: .env
 
 
-await User.findOneAndDelete({ email: "badlamoussaab@gmail.com" })
-console.log("User deleted");
+// await User.findOneAndDelete({ email: "ja_bouchouareb@esi.dz" })
+// console.log("User deleted");
 
 
