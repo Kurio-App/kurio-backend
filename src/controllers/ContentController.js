@@ -19,19 +19,20 @@ import Chapter from "../models/Chapter.js";
 export async function CreateStory(req,res){
     try{
 
-        const inputs = req.body.generation_params;
+        const inputs = req.body;
 
 
         const  data = {
             generation_params: {
-                age: inputs.age,
-                language: inputs.language,
+                age: req.user.age,
+                story_theme : "Animals, Small village",
+                language: "English",
                 story_genres: inputs.story_genres,
                 story_morals: inputs.story_morals,
                 story_length: inputs.story_length,
                 story_chapter_length: inputs.story_chapter_length,
                 user_preferences: inputs.user_preferences,
-                image_type: inputs.image_type
+                img_type: inputs.image_type
             },
             load_local: load_local,
             save_local: false
@@ -55,9 +56,24 @@ export async function CreateStory(req,res){
         if (!outlineData.success){
             return ErrorRes(res,"Cannot Create Story",400,outlineData.error);
         }
-        req.user.outlines.push(outlineData.data._id);
+        outline = outlineData.data;
+
+
+        let body = {
+            load_local: load_local,
+            save_local: false
+        }
+
+
+
+
+        await outline.save();
+        req.user.outlines.push(outline._id);
         await req.user.save();
-        return SuccessRes(res,"Story Created",outlineData.data);
+
+        outline = await Outline.findOne({id : response.data.id}).populate("chapters");
+
+        return SuccessRes(res,"Story Created",outline);
     }catch(err){
         console.log(err.message)
         return ErrorRes(res,"Cannot Create Story",500,err.message);
@@ -116,7 +132,45 @@ export async function CreateTextBook(req,res){
         }
         req.user.outlines.push(outlineData.data._id);
         await req.user.save();
-        return SuccessRes(res,"TextBook Created",outlineData.data);
+        outline = outlineData.data;
+
+        let body = {
+            load_local: load_local,
+            save_local: false
+        }
+
+
+
+
+
+    
+        for (let index = 1; index <= outlineData.data.chapters_number; index++) {
+            let    data = {}
+            let url = uri+"/textbook/"+outlineData.data.id+"/"+index;
+            let response2 = await axios.post(url , body);
+             data = response2.data;
+
+            let chapterModel = await CreateChapter(
+                data.title,
+                data.content,
+                data.image,
+                data.voice
+            )
+            if (!chapterModel){
+                return ErrorRes(res,"Cannot Create TextBook",400,chapterModel.error);
+            }
+
+        
+            outline.chapters.push(chapterModel._id);
+    
+        }
+
+
+
+
+        await outline.save();
+        outline = await Outline.findOne({id : response.data.id}).populate("chapters");
+        return SuccessRes(res,"TextBook Created",outline);
     }catch(err){
         console.log(err.message)
         return ErrorRes(res,"Cannot Create TextBook",500,err.message);
@@ -159,19 +213,22 @@ export async function CreateChapterController(req,res){
     
     
         let response = await axios.post(url , body);
-        console.log(response);
-        if (!Chapter){
-            return ErrorRes(res,"Cannot Create Chapter",400,Chapter.error);
-        }
-    
-    
         let chapter = await CreateChapter({
             title: response.data.title,
             content: response.data.content,
             image: response.data.image,
             voice: response.data.voice
         })
-        await chapter.save();
+
+            if (!chapter){
+                return ErrorRes(res,"Cannot Create TextBook",400,chapterModel.error);
+            }
+
+        
+    
+        
+
+
     
         outline.chapters.push(chapter._id);
     
@@ -204,3 +261,24 @@ export async function CreateChapterController(req,res){
 
 
 
+
+
+export async function createTopics (req , res) { 
+    try {
+        const inputs = req.body.generation_params
+
+        const body = { 
+
+        }
+        const url = ""
+
+        let response = await  axios.post(body , url);
+
+
+
+
+        
+    } catch (error) {
+        
+    }
+}

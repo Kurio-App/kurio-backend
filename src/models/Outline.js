@@ -14,12 +14,16 @@ const OutlineSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    public : { 
+        type : Boolean,
+        default : false ,
+    },
     type: {
         type: String,
         enum: ["textbook", "story"],
         required: true,
 
-
+    
     },
     chapters_number: {
         type: Number,
@@ -27,7 +31,8 @@ const OutlineSchema = new mongoose.Schema({
     },
     chapters : {
         type: [mongoose.Schema.Types.ObjectId,],
-        ref: "Chapter"
+        ref: "Chapter",
+        default : []
 
     },
 

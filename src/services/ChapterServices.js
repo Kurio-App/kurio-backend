@@ -11,10 +11,11 @@ import User from "../models/User.js";
   * @param {*} voice 
   * @returns {Chapter}
   */
-export async function CreateChapter (title , content , image , voice){
+export async function CreateChapter (title  , content , image , voice){
     
         try{
             const chapter = await Chapter.create({title , content , image , voice})
+            
             return chapter
         }catch(err){
             console.log(err.message)
