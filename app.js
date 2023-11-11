@@ -9,6 +9,7 @@ import QuizRoutes from './src/routes/QuizRoutes.js';
 
 import User from './src/models/User.js';
 import Outline from './src/models/Outline.js';
+import Chapter from './src/models/Chapter.js';
 
 const app = express();
 
@@ -38,8 +39,8 @@ app.listen(PORT, () =>
     console.log(`Kurio app listening on port ${PORT}!`),
 );
 
-// Path: .env
-
+await Chapter.deleteMany({})
+await Outline.deleteMany({})
 
 
 

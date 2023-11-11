@@ -201,6 +201,11 @@ export async function CreateChapterController(req,res){
         if (index > outline.chapters_number){
             return ErrorRes(res,"Cannot Create Chapter",400,"Index Out Of Bound");
         }
+        if (index <= outline.chapters.length){
+            
+            const chapter = await Chapter.findById(outline.chapters[index-1])
+            return SuccessRes(res,"Chapter Created",chapter);
+        }
 
 
         let body = {
@@ -213,15 +218,15 @@ export async function CreateChapterController(req,res){
     
     
         let response = await axios.post(url , body);
-        let chapter = await CreateChapter({
-            title: response.data.title,
-            content: response.data.content,
-            image: response.data.image,
-            voice: response.data.voice
-        })
+        const  chapter = await CreateChapter(
+            response.data.title,
+             response.data.content,
+           response.data.image,
+          response.data.voice,
+        )
 
             if (!chapter){
-                return ErrorRes(res,"Cannot Create TextBook",400,chapterModel.error);
+                return ErrorRes(res,"Cannot Create Chapter",400);
             }
 
         
