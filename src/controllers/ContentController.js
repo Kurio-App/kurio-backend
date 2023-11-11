@@ -44,7 +44,6 @@ export async function CreateStory(req,res){
             console.log(err.message);
         }
         );
-        console.log(response.data);
 
         let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
 
@@ -141,14 +140,21 @@ export async function CreateTextBook(req,res){
             return ErrorRes(res,"Cannot Create TextBook",400,outlineData.error);
         }
 
-        req.user.outlines.push(outlineData.data._id);
+        outline = outlineData.data;
+
+
+
+
+
+
+        req.user.outlines.push(outline._id);
         await req.user.save();
         
 
 
 
 
-        return SuccessRes(res,"TextBook Created",outlineData.data);
+        return SuccessRes(res,"TextBook Created",outline);
     }catch(err){
         console.log(err.message)
         return ErrorRes(res,"Cannot Create TextBook",500,err.message);
