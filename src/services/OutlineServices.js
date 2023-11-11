@@ -14,11 +14,11 @@ import User from "../models/User.js";
 
 export async function CreateOutline(id,title ,image , chapters_number ,type ) {
     try{
-        const outline = await Outline.create({title , image , chapters_number , id , type})
+        const outline = await Outline.create({title , image , chapters_number , id , type })
 
         return {
             data : outline,
-            success : true
+            success:true,
 
         }
 

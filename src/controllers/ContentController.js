@@ -1,5 +1,5 @@
 import axios from "axios";
-import {uri , load_local} from "../utils/constants.js";
+import {uri , load_local, save_local} from "../utils/constants.js";
 import { CreateOutline } from "../services/OutlineServices.js";
 import {CreateChapter} from "../services/ChapterServices.js";
 import { ErrorRes, SuccessRes } from "../utils/response.js";
@@ -25,7 +25,7 @@ export async function CreateStory(req,res){
         const  data = {
             generation_params: {
                 age: req.user.age,
-                story_theme : "Animals, Small village",
+                story_theme : "Adventure",
                 language: "English",
                 story_genres: inputs.story_genres,
                 story_morals: inputs.story_morals,
@@ -35,19 +35,21 @@ export async function CreateStory(req,res){
                 img_type: inputs.image_type
             },
             load_local: load_local,
-            save_local: false
+            save_local: save_local
 
 
         }
 
-        const response = await axios.post(uri+"/story",data);
+        const response = await axios.post(uri+"/story",data).catch((err)=>{
+            console.log(err.message);
+        }
+        );
+        console.log(response.data);
 
         let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
 
         if (outline){
-            if (req.user.outlines.includes(outline._id)){
-                console.log("here");
-
+            if (!req.user.outlines.includes(outline._id)){
                 req.user.outlines.push(outline._id);
                 await req.user.save();    
 
@@ -69,11 +71,9 @@ export async function CreateStory(req,res){
 
 
 
-        await outline.save();
         req.user.outlines.push(outline._id);
         await req.user.save();
 
-        outline = await Outline.findOne({id : response.data.id}).populate("chapters");
 
         return SuccessRes(res,"Story Created",outline);
     }catch(err){
@@ -109,20 +109,24 @@ export async function CreateTextBook(req,res){
                 depth: inputs.depth,
                 level: inputs.level,
                 user_preferences: inputs.user_preferences,
-                image_type: inputs.image_type
+                img_type: inputs.image_type
             },
             load_local: load_local,
-            save_local: false
+            save_local: save_local
         }
 
-        const response = await axios.post(uri+"/textbook",data);
+        const response = await axios.post(uri+"/textbook",data).catch((err)=>{
+
+            console.log(err.message);
+        }
+        );
         if (!response){
             return ErrorRes(res,"Cannot Create TextBook",400,"TextBook Not Found");
         }
         let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
         
         if (outline){
-            if (req.user.outlines.includes(outline._id)){
+            if (!req.user.outlines.includes(outline._id)){
                 req.user.outlines.push(outline._id);
                 await req.user.save();    
 
@@ -136,47 +140,15 @@ export async function CreateTextBook(req,res){
         if (!outlineData.success){
             return ErrorRes(res,"Cannot Create TextBook",400,outlineData.error);
         }
+
         req.user.outlines.push(outlineData.data._id);
         await req.user.save();
-        outline = outlineData.data;
-
-        let body = {
-            load_local: load_local,
-            save_local: false
-        }
-
-
-
-
-
-    
-        for (let index = 1; index <= outlineData.data.chapters_number; index++) {
-            let    data = {}
-            let url = uri+"/textbook/"+outlineData.data.id+"/"+index;
-            let response2 = await axios.post(url , body);
-             data = response2.data;
-
-            let chapterModel = await CreateChapter(
-                data.title,
-                data.content,
-                data.image,
-                data.voice
-            )
-            if (!chapterModel){
-                return ErrorRes(res,"Cannot Create TextBook",400,chapterModel.error);
-            }
-
         
-            outline.chapters.push(chapterModel._id);
-    
-        }
 
 
 
 
-        await outline.save();
-        outline = await Outline.findOne({id : response.data.id}).populate("chapters");
-        return SuccessRes(res,"TextBook Created",outline);
+        return SuccessRes(res,"TextBook Created",outlineData.data);
     }catch(err){
         console.log(err.message)
         return ErrorRes(res,"Cannot Create TextBook",500,err.message);
@@ -216,7 +188,7 @@ export async function CreateChapterController(req,res){
 
         let body = {
             load_local: load_local,
-            save_local: false
+            save_local: save_local
         }
 
 

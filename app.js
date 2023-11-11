@@ -10,6 +10,7 @@ import QuizRoutes from './src/routes/QuizRoutes.js';
 import User from './src/models/User.js';
 import Outline from './src/models/Outline.js';
 import Chapter from './src/models/Chapter.js';
+import { CreateExpo } from './src/controllers/OutlinesController.js';
 
 const app = express();
 
@@ -38,6 +39,7 @@ ConnectDB();
 app.listen(PORT, () =>
     console.log(`Kurio app listening on port ${PORT}!`),
 );
+
 
 
 
