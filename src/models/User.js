@@ -42,7 +42,8 @@ const UserSchema = new mongoose.Schema({
 
     outlines :{
         type : [mongoose.Schema.Types.ObjectId],
-        ref : "Outline"
+        ref : "Outline",
+        default : []
     }
 
 

@@ -45,8 +45,14 @@ export async function CreateStory(req,res){
         let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
 
         if (outline){
-            req.user.outlines.push(outline._id);
-            await req.user.save();    
+            if (req.user.outlines.includes(outline._id)){
+                console.log("here");
+
+                req.user.outlines.push(outline._id);
+                await req.user.save();    
+
+            }
+            
             return SuccessRes(res,"Story Created",outline);
         }
 
@@ -59,10 +65,6 @@ export async function CreateStory(req,res){
         outline = outlineData.data;
 
 
-        let body = {
-            load_local: load_local,
-            save_local: false
-        }
 
 
 
@@ -120,8 +122,12 @@ export async function CreateTextBook(req,res){
         let outline = await Outline.findOne({id : response.data.id}).populate("chapters");
         
         if (outline){
-            req.user.outlines.push(outline._id);
-            await req.user.save();    
+            if (req.user.outlines.includes(outline._id)){
+                req.user.outlines.push(outline._id);
+                await req.user.save();    
+
+            }
+
             return SuccessRes(res,"TextBook Created",outline);
         }
 

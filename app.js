@@ -39,8 +39,6 @@ app.listen(PORT, () =>
     console.log(`Kurio app listening on port ${PORT}!`),
 );
 
-await Chapter.deleteMany({})
-await Outline.deleteMany({})
 
 
 

@@ -76,10 +76,6 @@ export async function registerController(req, res) {
       });
     }
 
-    console.log(age);
-    console.log(name);
-    console.log(email);
-    
 
     var result = await registerUser(email, password, name , age);
     if (!result.success) {
