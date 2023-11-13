@@ -25,7 +25,7 @@ export async function CreateStory(req,res){
         const  data = {
             generation_params: {
                 age: req.user.age,
-                story_theme : "Adventure",
+                story_theme : "Anime",
                 language: "English",
                 story_genres: inputs.story_genres,
                 story_morals: inputs.story_morals,
