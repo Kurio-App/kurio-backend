@@ -1,4 +1,3 @@
 # kurio-backend
 
-
-#BEL3AMRI 
+User management API
